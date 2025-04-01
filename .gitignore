@@ -1,0 +1,36 @@
+# Vagrant-specific files
+.vagrant/
+
+# VirtualBox files
+*.vbox
+*.vbox-prev
+*.log
+
+# Machine-specific files
+*.pid
+*.swp
+*.swo
+*.swn
+*.DS_Store
+
+# Ignore SSH keys (if any are generated)
+id_rsa
+id_rsa.pub
+
+# MongoDB data files (if stored locally)
+data/
+*.lock
+journal/
+mongod.log
+mongos.log
+diagnostic.data/
+
+# Ignore temporary scripts or logs
+*.out
+*.bak
+*.tmp
+nohup.out
+
+# Ignore environment files (if using .env for MongoDB config)
+.env
+
