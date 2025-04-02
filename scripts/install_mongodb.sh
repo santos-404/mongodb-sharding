@@ -1,20 +1,28 @@
 #!/bin/bash
 
-apt-get install gnupg curl
+NODE_TYPE=$1
+
+apt-get update
+apt-get install -y gnupg curl
 
 curl -fsSL https://www.mongodb.org/static/pgp/server-8.0.asc | \
    gpg -o /usr/share/keyrings/mongodb-server-8.0.gpg \
    --dearmor
 
-echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-8.0.gpg ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/8.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-8.0.list
+echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-8.0.gpg ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/8.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-8.0.list
 apt-get update
 
-# I install a specific release so I'm sure all the VMs work always on the same MongoDB version
-apt-get install -y mongodb-org=8.0.6 mongodb-org-database=8.0.6 mongodb-org-server=8.0.6 mongodb-mongosh mongodb-org-shell=8.0.6 mongodb-org-mongos=8.0.6 mongodb-org-tools=8.0.6 mongodb-org-database-tools-extra=8.0.6
+apt-get install -y mongodb-org mongodb-mongosh
 
-# We are gonna use a custom configuration so I stop the services
-systemctl stop mongod
+if [ "$NODE_TYPE" = "configsvr" ]; then
+    mkdir -p /data/configdb
+    chown -R mongodb:mongodb /data/configdb
+elif [ "$NODE_TYPE" = "shard" ]; then
+    mkdir -p /data/db
+    chown -R mongodb:mongodb /data/db
+fi
+
 systemctl disable mongod
+systemctl stop mongod
 
-mkdir -p /var/log/mongodb
-chown -R mongodb:mongodb /var/log/mongodb
+echo "MongoDB installation completed for $NODE_TYPE"
