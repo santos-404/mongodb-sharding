@@ -18,6 +18,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.synced_folder "./shared", "/vagrant/shared"
 
+
   # ----------config server----------
   config.vm.define "configsrv" do |configsrv|
     configsrv.vm.hostname = "configsrv"
@@ -27,5 +28,19 @@ Vagrant.configure("2") do |config|
   end
 
 
+  # ----------shard servers----------
+  config.vm.define "shard1" do |shard1|
+    shard1.vm.hostname = "shard1"
+    shard1.vm.network "private_network", ip: "192.168.56.11"
+    shard1.vm.provision "shell", path: "scripts/install_mongodb.sh", args: "shard"
+    shard1.vm.provision "shell", path: "scripts/setup_shard.sh", args: "shard1 1"
+  end
+  
+  config.vm.define "shard2" do |shard2|
+    shard2.vm.hostname = "shard2"
+    shard2.vm.network "private_network", ip: "192.168.56.12"
+    shard2.vm.provision "shell", path: "scripts/install_mongodb.sh", args: "shard"
+    shard2.vm.provision "shell", path: "scripts/setup_shard.sh", args: "shard2 2"
+  end
 
 end
