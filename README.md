@@ -18,6 +18,16 @@ The setup creates the following virtual machines:
    - Port: 27019
    - Replica Set: configReplSet
 
+2. **Shard 1 (shard1)**: Stores a portion of the actual data in the sharded cluster
+   - IP: 192.168.56.11
+   - Port: 27018
+   - Replica Set: shard1ReplSet
+
+3. **Shard 2 (shard2)**: Stores a portion of the actual data in the sharded cluster
+   - IP: 192.168.56.12
+   - Port: 27018
+   - Replica Set: shard2ReplSet
+
 
 ## Directory Structure
 
@@ -26,7 +36,10 @@ mongodb-sharding/
 ├── Vagrantfile                  # Vagrant configuration
 ├── scripts/
 │   ├── install_mongodb.sh       # Script to install MongoDB
+│   ├── setup_shard.sh           # Script to set up each shard server 
 │   └── setup_configserver.sh    # Script to set up config server
+├── shared/
+│   ├── mongodb-keyfile          # Shared keyfile accross the servers 
 └── README.md                    # This file
 ```
 
@@ -46,11 +59,11 @@ mongodb-sharding/
 
 ## Accessing the MongoDB Cluster
 
-### Config Server
+### On each server 
 
 ```bash
 # SSH into the config server
-vagrant ssh configsrv
+vagrant ssh <server> 
 
 # Connect to MongoDB
 mongosh --port 27019 -u mongoAdmin -p hackable_pwd --authenticationDatabase admin
@@ -58,6 +71,27 @@ mongosh --port 27019 -u mongoAdmin -p hackable_pwd --authenticationDatabase admi
 # Check replica set status
 rs.status()
 ```
+
+### Check everything with one command 
+
+1. First, verify that MongoDB is running on all your nodes:
+
+```bash
+vagrant ssh configsrv -c "sudo systemctl status mongod"
+
+vagrant ssh shard1 -c "sudo systemctl status mongod"
+vagrant ssh shard2 -c "sudo systemctl status mongod"
+```
+
+2. Connect to the servers and check their replica set status:
+
+```bash
+vagrant ssh configsrv -c "mongosh --port 27019 -u mongoAdmin -p hackable_pwd --authenticationDatabase admin --eval 'rs.status()'"
+
+vagrant ssh shard1 -c "mongosh --port 27018 -u mongoAdmin -p hackable_pwd --authenticationDatabase admin --eval 'rs.status()'"
+vagrant ssh shard2 -c "mongosh --port 27018 -u mongoAdmin -p hackable_pwd --authenticationDatabase admin --eval 'rs.status()'"
+```
+
 
 ## Managing the Cluster
 
