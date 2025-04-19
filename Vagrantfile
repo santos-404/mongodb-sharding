@@ -14,7 +14,7 @@ Vagrant.configure("2") do |config|
   config.vm.define "configsrv" do |configsrv|
     configsrv.vm.hostname = "configsrv"
     configsrv.vm.network "private_network", ip: "192.168.56.10"
-    configsrv.vm.provision "shell", path: "scripts/install_mongodb.sh", args: "configsvr"
+    configsrv.vm.provision "shell", path: "scripts/install_mongodb.sh", args: "configsrv"
     configsrv.vm.provision "shell", path: "scripts/setup_configserver.sh"
   end
 

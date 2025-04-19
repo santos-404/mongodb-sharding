@@ -14,7 +14,7 @@ apt-get update
 
 apt-get install -y mongodb-org mongodb-mongosh
 
-if [ "$NODE_TYPE" = "configsvr" ]; then
+if [ "$NODE_TYPE" = "configsrv" ]; then
     mkdir -p /data/configdb
     chown -R mongodb:mongodb /data/configdb
 elif [ "$NODE_TYPE" = "shard" ]; then
@@ -22,6 +22,7 @@ elif [ "$NODE_TYPE" = "shard" ]; then
     chown -R mongodb:mongodb /data/db
 fi
 
+# We start the services on their own config script
 systemctl disable mongod
 systemctl stop mongod
 
