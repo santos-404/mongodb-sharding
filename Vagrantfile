@@ -1,14 +1,22 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-Vagrant.configure("2") do |config|
+require 'fileutils'
+FileUtils.mkdir_p('./shared')
+unless File.exist?('./shared/mongodb-keyfile')
+  `openssl rand -base64 756 > ./shared/mongodb-keyfile`
+  File.chmod(0600, './shared/mongodb-keyfile')
+end
 
+Vagrant.configure("2") do |config|
 
   config.vm.box = "ubuntu/jammy64"
   config.vm.provider "virtualbox" do |vb|
     vb.memory = 1024  
     vb.cpus = 1
   end
+
+  config.vm.synced_folder "./shared", "/vagrant/shared"
 
   # ----------config server----------
   config.vm.define "configsrv" do |configsrv|

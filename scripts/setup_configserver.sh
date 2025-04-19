@@ -12,14 +12,13 @@ killall mongod 2>/dev/null
 mkdir -p /data/configdb
 mkdir -p /var/log/mongodb
 mkdir -p /opt/mongodb
-
 chown -R mongodb:mongodb /data/configdb
 chown -R mongodb:mongodb /var/log/mongodb
 chmod 700 /opt/mongodb
 
-# We need some permissions here
-openssl rand -base64 756 > /opt/mongodb/keyfile
-sudo chown -R mongodb:mongodb /opt/mongodb
+# Updated to use the same keyfile on every machine 
+cp /vagrant/shared/mongodb-keyfile /opt/mongodb/keyfile
+chown -R mongodb:mongodb /opt/mongodb
 chmod 400 /opt/mongodb/keyfile
 
 
