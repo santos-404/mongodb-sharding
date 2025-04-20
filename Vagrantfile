@@ -43,4 +43,12 @@ Vagrant.configure("2") do |config|
     shard2.vm.provision "shell", path: "scripts/setup_shard.sh", args: "shard2 2"
   end
 
+  # ----------mongos router----------
+  config.vm.define "router" do |router|
+    router.vm.hostname = "router"
+    router.vm.network "private_network", ip: "192.168.56.13"
+    router.vm.provision "shell", path: "scripts/install_mongodb.sh"
+    router.vm.provision "shell", path: "scripts/setup_router.sh"
+  end
+
 end
