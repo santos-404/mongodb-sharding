@@ -1,0 +1,11 @@
+<div class="shard-panel">
+    <h2>Distribución de los shards</h2>
+    <ul>
+        {{ range $k, $v := . }}
+        <li><strong>{{ $k }}</strong> — {{ $v }} doc(s)</li>
+        {{ else }}
+        <li>No hay información disponible de los shards.</li>
+        {{ end }}
+    </ul>
+</div>
+

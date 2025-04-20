@@ -1,0 +1,22 @@
+{{ define "docs.html" }}
+  <div id="docs-list" class="space-y-4">
+    {{ range . }}
+      <div
+        id="doc-{{ .ID.Hex }}"
+        class="p-4 bg-white shadow rounded flex justify-between items-center"
+      >
+        <span class="font-medium">{{ .Name }}</span>
+        <button
+          class="text-red-500 hover:text-red-700"
+          hx-delete="/docs?id={{ .ID.Hex }}"
+          hx-target="#doc-{{ .ID.Hex }}"
+          hx-swap="outerHTML"
+        >
+          ❌ Eliminar 
+        </button>
+      </div>
+    {{ else }}
+      <p class="italic text-gray-500">No existen documentos.</p>
+    {{ end }}
+  </div>
+{{ end }}

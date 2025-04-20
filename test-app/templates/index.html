@@ -1,0 +1,19 @@
+{{ define "content" }}
+<form hx-post="/docs" hx-target="#docs-list" hx-swap="beforeend">
+    <label>
+        Nombre:
+        <input type="text" name="name" required>
+    </label>
+    <button type="submit">Añadir</button>
+</form>
+
+<div id="docs-list" hx-get="/docs" hx-trigger="load">
+</div>
+
+<button hx-get="/shards" hx-target="#shard-info" hx-swap="innerHTML">
+    Mostrar información de los shards 
+</button>
+<div id="shard-info"></div>
+
+{{ end }}
+
