@@ -4,14 +4,12 @@
         <meta charset="UTF-8"/>
         <title>{{ .Title }}</title>
         <script src="https://unpkg.com/htmx.org@1.9.2"></script>
-        <style>
-body { font-family: sans-serif; max-width: 600px; margin: 2em auto; }
-form, .doc { margin-bottom: 1em; padding: 0.5em; border: 1px solid #ccc; border-radius: 4px; }
-        </style>
+        <link rel="stylesheet" href="/static/styles.css">
     </head>
     <body>
-        <h1>{{ .Title }}</h1>
-        {{ block "content" . }}{{ end }}
+        <div class="container">
+            <h1>{{ .Title }}</h1>
+            {{ block "content" . }}{{ end }}
+        </div>
     </body>
 </html>
-

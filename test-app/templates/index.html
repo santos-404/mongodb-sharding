@@ -1,19 +1,34 @@
 {{ define "content" }}
-<form hx-post="/docs" hx-target="#docs-list" hx-swap="beforeend">
-    <label>
-        Nombre:
-        <input type="text" name="name" required>
-    </label>
-    <button type="submit">Añadir</button>
-</form>
+<div class="docs-col">
+    <form
+            hx-post="/docs"
+            hx-target="#docs-list"
+            hx-swap="beforeend">
+        <label>
+            Nombre:
+            <input type="text" name="name" required>
+        </label>
+        <button type="submit" class="btn btn-primary">Añadir</button>
+    </form>
 
-<div id="docs-list" hx-get="/docs" hx-trigger="load">
+    <div id="docs-list" hx-get="/docs" hx-trigger="load"></div>
 </div>
 
-<button hx-get="/shards" hx-target="#shard-info" hx-swap="innerHTML">
-    Mostrar información de los shards 
-</button>
-<div id="shard-info"></div>
+<div class="shard-col">
+  <div class="shard-panel">
+    <div
+      id="shard-info"
+      hx-get="/shards"
+      hx-trigger="load"
+      hx-swap="innerHTML">
+    </div>
+    <button
+            class="btn btn-primary"
+            hx-get="/shards"
+            hx-target="#shard-info"
+            hx-swap="innerHTML">
+        Recargar shards
+    </button>
+  </div>
 
 {{ end }}
-
