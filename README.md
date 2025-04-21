@@ -28,6 +28,11 @@ The setup creates the following virtual machines:
    - Port: 27018
    - Replica Set: shard2ReplSet
 
+4. **Router (router / mongos)**: Acts as a query router and interface for the sharded cluster. It also directs the traffic to the correct shard.
+   - IP: 192.168.56.13
+   - Port: 27017
+   - Replica Set: not applicable. The mongos process is not part of the replica set, instead it retrieves data directly from the config server.
+
 
 ## Directory Structure
 
@@ -37,6 +42,7 @@ mongodb-sharding/
 ├── scripts/
 │   ├── install_mongodb.sh       # Script to install MongoDB
 │   ├── setup_shard.sh           # Script to set up each shard server 
+│   └── setup_router.sh          # Script to set up the router
 │   └── setup_configserver.sh    # Script to set up config server
 ├── shared/
 │   ├── mongodb-keyfile          # Shared keyfile accross the servers 
@@ -56,6 +62,7 @@ mongodb-sharding/
    vagrant up
    ```
    This will create and provision all three VMs, which may take several minutes.
+
 
 ## Accessing the MongoDB Cluster
 
