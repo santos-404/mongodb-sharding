@@ -9,8 +9,6 @@ A minimal Go web application using HTMX to interact with a MongoDB sharded clust
 ├── go.mod
 ├── go.sum
 ├── main.go
-├── shared
-│   └── mongodb-keyfile       # Keyfile for MongoDB authentication
 ├── static
 │   └── styles.css            # Basic CSS
 └── templates
