@@ -37,17 +37,19 @@ The setup creates the following virtual machines:
 ## Directory Structure
 
 ```
-mongodb-sharding/
+mongodb-sharding/ 
 ├── Vagrantfile                  # Vagrant configuration
 ├── scripts/
 │   ├── install_mongodb.sh       # Script to install MongoDB
 │   ├── setup_shard.sh           # Script to set up each shard server 
-│   └── setup_router.sh          # Script to set up the router
+│   ├── setup_router.sh          # Script to set up the router
 │   └── setup_configserver.sh    # Script to set up config server
 ├── shared/
-│   ├── mongodb-keyfile          # Shared keyfile accross the servers 
+│   └── mongodb-keyfile          # Shared keyfile accross the servers 
 └── README.md                    # This file
 ```
+> **Note**: This directory tree shows only the MongoDB-specific portion of the project; the test-app directory is omitted here since it exists separately and is not the main focus.
+
 
 ## Installation and Setup
 
@@ -123,6 +125,11 @@ vagrant ssh mongos
 mongosh --port 27017 -u mongoAdmin -p hackable_pwd --authenticationDatabase admin
 sh.addShard("shard2RS/192.168.56.YZ:27018")
 ```
+
+## Test App
+
+There is a **test-app** built with Go and HTMX where you can interactively try out the sharded cluster. It provides a simple web interface to insert, query, and visualize data across shards. For the full content and detailed instructions, please refer to the [test-app README](https://github.com/santos-404/mongodb-sharding/blob/main/test-app/README.md).
+
 
 ## Security Notes
 
